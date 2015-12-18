@@ -1,6 +1,11 @@
-# CloudFoundry build pack: Node.js
+# CloudFoundry build pack: Lamby Node.js
 
-A Cloud Foundry [buildpack](http://docs.cloudfoundry.org/buildpacks/) for Node based apps.
+A CF Buildpack for pushing simple AWS Lambda - like apps.
+
+![Lamby!](http://www.phoodie.info/wp-content/uploads/2013/11/flat550x550075f.jpg "Lamby!")
+
+
+Based on the Cloud Foundry [buildpack](http://docs.cloudfoundry.org/buildpacks/) for Node based apps.
 
 This is based on the [Heroku buildpack] (https://github.com/heroku/heroku-buildpack-nodejs).
 
