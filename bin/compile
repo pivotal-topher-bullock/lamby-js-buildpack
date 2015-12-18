@@ -16,9 +16,8 @@ $BP_DIR/compile-extensions/bin/check_stack_support
 
 ### Load base app files
 
-cp -R $BP_DIR/base_app/ $BUILD_DIR
-ls -lsa $BP_DIR/base_app/
-ls -lsa $BUILD_DIR/base_app/
+cp -R $BP_DIR/base_app/* $BUILD_DIR/
+ls -lsa $BUILD_DIR
 
 mkdir -p "$BUILD_DIR/.heroku/node/"
 cd $BUILD_DIR
