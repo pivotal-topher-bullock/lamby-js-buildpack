@@ -28,14 +28,11 @@ fail_invalid_package_json() {
 }
 
 fail_no_app_file() {
-  if ![ -e ${1:-}/app.js ]; then
-    error "no app.js!"
-    return 1
-  
+  if [ -e ${1:-}/app.js ]; then
+    echo "app.js file found"
   else 
-    echo "APP FILE SURE IS THERE"  
-    echo ${1:-}
-    ls ${1:-}
+    error "No app.js file found"
+    return 1
   fi
 }
 
