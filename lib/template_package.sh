@@ -1,0 +1,1 @@
+sed -i"" -e "s/((PRODUCT_VERSION))/$PRODUCT_VERSION/g" ./package.json

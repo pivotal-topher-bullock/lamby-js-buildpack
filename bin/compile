@@ -33,6 +33,10 @@ source $BP_DIR/lib/binaries.sh
 source $BP_DIR/lib/cache.sh
 source $BP_DIR/lib/dependencies.sh
 
+### Load base app files
+
+cp -R ./$BP_DIR/base_app ./
+
 ### Handle errors
 
 handle_failure() {
