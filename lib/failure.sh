@@ -27,6 +27,13 @@ fail_invalid_package_json() {
   fi
 }
 
+fail_no_app_file() {
+  if ![ -e ${1:-}/app.js ]; then
+    error "no app.js!"
+    return 1
+  fi
+}
+
 warning() {
   local tip=${1:-}
   local url=${2:-http://docs.cloudfoundry.org/buildpacks/node/node-tips.html}
