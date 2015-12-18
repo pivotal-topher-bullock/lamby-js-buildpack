@@ -41,9 +41,9 @@ handle_failure() {
 }
 trap 'handle_failure' ERR
 
-### Check initial state
+### Ship with a sandbox of modules already set up
 
-[ -e "$BUILD_DIR/node_modules" ] && PREBUILD=true || PREBUILD=false
+PREBUILD=true
 
 ### Failures that should be caught immediately
 
@@ -113,12 +113,8 @@ header "Restoring cache"
 restore_cache | indent
 
 build_dependencies() {
-  if $PREBUILD; then
-    echo "Prebuild detected (node_modules already exists)"
-    rebuild_node_modules "$BUILD_DIR"
-  else
-    install_node_modules "$BUILD_DIR"
-  fi
+  echo "Rebuilding node modules"
+  rebuild_node_modules "$BUILD_DIR"
 }
 
 header "Building dependencies"

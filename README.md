@@ -13,7 +13,7 @@ Additional documentation can be found at the [CloudFoundry.org](http://docs.clou
 
 ## Usage
 
-This buildpack will get used if you have a `package.json` file in your project's root directory.
+This buildpack will get used if you have an `app.js` file in your project's root directory.
 
 ```bash
 cf push my_app -b https://github.com/cloudfoundry/buildpack-nodejs.git
