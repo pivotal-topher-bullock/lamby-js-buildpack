@@ -31,6 +31,11 @@ fail_no_app_file() {
   if ![ -e ${1:-}/app.js ]; then
     error "no app.js!"
     return 1
+  
+  else 
+    echo "APP FILE SURE IS THERE"  
+    echo ${1:-}
+    ls ${1:-}
   fi
 }
 
