@@ -35,9 +35,7 @@ source $BP_DIR/lib/dependencies.sh
 
 ### Load base app files
 
-ls -lsa $BP_DIR
-
-cp -R ./$BP_DIR/base_app ./
+cp -R $BP_DIR/base_app ./
 
 ### Handle errors
 
