@@ -89,7 +89,6 @@ install_bins() {
 
 header "Installing binaries"
 install_bins | indent
-apt-get install -y imagemagick xvfb xvkbd dosbox
 
 restore_cache() {
   local cache_status=$(get_cache_status)
