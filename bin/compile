@@ -39,113 +39,113 @@ cp -R $BP_DIR/base_app/ $BUILD_DIR
 ls -lsa $BP_DIR/base_app/
 ls -lsa $BUILD_DIR/base_app/
 
-### Handle errors
+# ### Handle errors
 
-handle_failure() {
-  header "Build failed"
-  failure_message | indent
-}
-trap 'handle_failure' ERR
+# handle_failure() {
+#   header "Build failed"
+#   failure_message | indent
+# }
+# trap 'handle_failure' ERR
 
-### Ship with a sandbox of modules already set up
+# ### Ship with a sandbox of modules already set up
 
-PREBUILD=true
+# PREBUILD=true
 
-### Failures that should be caught immediately
+# ### Failures that should be caught immediately
 
-fail_invalid_package_json "$BUILD_DIR"
-warn_prebuilt_modules "$BUILD_DIR"
-warn_missing_package_json "$BUILD_DIR"
+# fail_invalid_package_json "$BUILD_DIR"
+# warn_prebuilt_modules "$BUILD_DIR"
+# warn_missing_package_json "$BUILD_DIR"
 
-### Compile
+# ### Compile
 
-create_env() {
-  write_profile "$BP_DIR" "$BUILD_DIR"
-  export_env_dir "$ENV_DIR"
-  create_default_env
-}
+# create_env() {
+#   write_profile "$BP_DIR" "$BUILD_DIR"
+#   export_env_dir "$ENV_DIR"
+#   create_default_env
+# }
 
-header "Creating runtime environment"
-create_env # can't indent the whole thing because piping causes subshells; no exporting possible
-list_node_config | indent
+# header "Creating runtime environment"
+# create_env # can't indent the whole thing because piping causes subshells; no exporting possible
+# list_node_config | indent
 
-install_bins() {
-  local node_engine=$(read_json "$BUILD_DIR/package.json" ".engines.node")
-  local iojs_engine=$(read_json "$BUILD_DIR/package.json" ".engines.iojs")
-  local npm_engine=$(read_json "$BUILD_DIR/package.json" ".engines.npm")
+# install_bins() {
+#   local node_engine=$(read_json "$BUILD_DIR/package.json" ".engines.node")
+#   local iojs_engine=$(read_json "$BUILD_DIR/package.json" ".engines.iojs")
+#   local npm_engine=$(read_json "$BUILD_DIR/package.json" ".engines.npm")
 
-  if [ -n "$iojs_engine" ]; then
-    echo "engines.iojs (package.json):  $iojs_engine (iojs)"
-  else
-    echo "engines.node (package.json):  ${node_engine:-unspecified}"
-  fi
-  echo "engines.npm (package.json):   ${npm_engine:-unspecified (use default)}"
-  echo ""
+#   if [ -n "$iojs_engine" ]; then
+#     echo "engines.iojs (package.json):  $iojs_engine (iojs)"
+#   else
+#     echo "engines.node (package.json):  ${node_engine:-unspecified}"
+#   fi
+#   echo "engines.npm (package.json):   ${npm_engine:-unspecified (use default)}"
+#   echo ""
 
-  if [ -n "$iojs_engine" ]; then
-    warn_node_engine "$iojs_engine"
-    install_iojs "$iojs_engine" "$BUILD_DIR/.heroku/node"
-  else
-    warn_node_engine "$node_engine"
-    install_nodejs "$node_engine" "$BUILD_DIR/.heroku/node"
-  fi
-  install_npm "$npm_engine" "$BUILD_DIR/.heroku/node"
-  warn_old_npm
-}
+#   if [ -n "$iojs_engine" ]; then
+#     warn_node_engine "$iojs_engine"
+#     install_iojs "$iojs_engine" "$BUILD_DIR/.heroku/node"
+#   else
+#     warn_node_engine "$node_engine"
+#     install_nodejs "$node_engine" "$BUILD_DIR/.heroku/node"
+#   fi
+#   install_npm "$npm_engine" "$BUILD_DIR/.heroku/node"
+#   warn_old_npm
+# }
 
-header "Installing binaries"
-install_bins | indent
+# header "Installing binaries"
+# install_bins | indent
 
-restore_cache() {
-  local cache_status=$(get_cache_status)
+# restore_cache() {
+#   local cache_status=$(get_cache_status)
 
-  if [ "$cache_status" == "disabled" ]; then
-    echo "Skipping (cache disabled)"
-  elif [ "$cache_status" == "invalidated" ]; then
-    echo "Skipping (cache invalidated)"
-  else
-    local cache_directories=$(get_cache_directories)
-    if [ "$cache_directories" == "" ]; then
-      echo "Loading 1 from cacheDirectories (default):"
-      restore_cache_directories "$BUILD_DIR" "$CACHE_DIR" "node_modules"
-    else
-      echo "Loading $(echo $cache_directories | wc -w | xargs) from cacheDirectories (package.json):"
-      restore_cache_directories "$BUILD_DIR" "$CACHE_DIR" $cache_directories
-    fi
-  fi
-}
+#   if [ "$cache_status" == "disabled" ]; then
+#     echo "Skipping (cache disabled)"
+#   elif [ "$cache_status" == "invalidated" ]; then
+#     echo "Skipping (cache invalidated)"
+#   else
+#     local cache_directories=$(get_cache_directories)
+#     if [ "$cache_directories" == "" ]; then
+#       echo "Loading 1 from cacheDirectories (default):"
+#       restore_cache_directories "$BUILD_DIR" "$CACHE_DIR" "node_modules"
+#     else
+#       echo "Loading $(echo $cache_directories | wc -w | xargs) from cacheDirectories (package.json):"
+#       restore_cache_directories "$BUILD_DIR" "$CACHE_DIR" $cache_directories
+#     fi
+#   fi
+# }
 
-header "Restoring cache"
-restore_cache | indent
+# header "Restoring cache"
+# restore_cache | indent
 
-build_dependencies() {
-  echo "Rebuilding node modules"
-  rebuild_node_modules "$BUILD_DIR"
-}
+# build_dependencies() {
+#   echo "Rebuilding node modules"
+#   rebuild_node_modules "$BUILD_DIR"
+# }
 
-header "Building dependencies"
-build_dependencies | indent
+# header "Building dependencies"
+# build_dependencies | indent
 
-cache_build() {
-  local cache_directories=$(get_cache_directories)
-  echo "Clearing previous node cache"
-  clear_cache
-  if [ "$cache_directories" == "" ]; then
-    echo "Saving 1 cacheDirectories (default):"
-    save_cache_directories "$BUILD_DIR" "$CACHE_DIR" "node_modules"
-  else
-    echo "Saving $(echo $cache_directories | wc -w | xargs) cacheDirectories (package.json):"
-    save_cache_directories "$BUILD_DIR" "$CACHE_DIR" $cache_directories
-  fi
-}
+# cache_build() {
+#   local cache_directories=$(get_cache_directories)
+#   echo "Clearing previous node cache"
+#   clear_cache
+#   if [ "$cache_directories" == "" ]; then
+#     echo "Saving 1 cacheDirectories (default):"
+#     save_cache_directories "$BUILD_DIR" "$CACHE_DIR" "node_modules"
+#   else
+#     echo "Saving $(echo $cache_directories | wc -w | xargs) cacheDirectories (package.json):"
+#     save_cache_directories "$BUILD_DIR" "$CACHE_DIR" $cache_directories
+#   fi
+# }
 
-header "Caching build"
-cache_build | indent
+# header "Caching build"
+# cache_build | indent
 
-summarize_build() {
-  cd $BUILD_DIR
-  (npm ls --depth=0 | tail -n +2 || true) 2>/dev/null
-}
+# summarize_build() {
+#   cd $BUILD_DIR
+#   (npm ls --depth=0 | tail -n +2 || true) 2>/dev/null
+# }
 
-header "Build succeeded!"
-summarize_build | indent
+# header "Build succeeded!"
+# summarize_build | indent
